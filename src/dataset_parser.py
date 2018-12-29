@@ -59,5 +59,38 @@ def parseFlatWith(array):
     
     return x_train, y_train, x_test
         
+def getMeanOfSignals():
+    filepath = '../data/'
+    x_train = pd.read_csv(filepath + 'train/x_train.csv')
+    y_train = pd.read_csv(filepath + 'train/y_train.csv')
+    #useless , but added
+    x_test = pd.read_csv(filepath + 'test/x_test.csv')
     
+    no_train_genes = x_train.shape[0] / 100
+    no_test_genes  = x_test.shape[0] / 100
+    
+    x_train = x_train.drop("GeneId",axis=1)
+    x_test = x_test.drop("GeneId",axis=1)
+    y_train = y_train.drop("GeneId",axis=1)
+    
+    x_train = np.split(x_train, no_train_genes)
+    x_test = np.split(x_test, no_test_genes)
+    
+    x_train_mean_list = []
+    x_test_mean_list = []
+
+    for gene_id in range(len(x_train)):
+        x_train_mean_list.append(np.mean(np.array(x_train[gene_id]), axis=0))
+        
+    for gene_id in range(len(x_test)):
+        x_test_mean_list.append(np.mean(np.array(x_test[gene_id]), axis=0))
+    
+    y_train = np.array(y_train.values.ravel())
+    
+    return np.array(x_train_mean_list), y_train, np.array(x_test_mean_list)
+    
+        
+#     print(x_train_mean_list)
+#     print("--------")
+#     print(x_train_mean_list[0])
     
