@@ -80,17 +80,15 @@ def getMeanOfSignals():
     x_test_mean_list = []
 
     for gene_id in range(len(x_train)):
-        x_train_mean_list.append(np.mean(np.array(x_train[gene_id]), axis=0))
+        meanArray = np.mean(np.array(x_train[gene_id]), axis=0)
+        stdArray = np.std(np.array(x_train[gene_id]),axis=0)
+
+        x_train_mean_list.append(np.concatenate((meanArray,stdArray),axis=None))
         
-    for gene_id in range(len(x_test)):
-        x_test_mean_list.append(np.mean(np.array(x_test[gene_id]), axis=0))
     
     y_train = np.array(y_train.values.ravel())
     
     return np.array(x_train_mean_list), y_train, np.array(x_test_mean_list)
     
         
-#     print(x_train_mean_list)
-#     print("--------")
-#     print(x_train_mean_list[0])
     
