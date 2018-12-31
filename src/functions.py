@@ -10,8 +10,10 @@ def splitData(x_train, y_train):
     return X_train, X_test, Y_train, Y_test
 
 #grid search CV
-def grid_search_cross_val(model, X, Y, param_grid, scoring='f1'):
-    grid = GridSearchCV(model, param_grid=param_grid, scoring=scoring)
+def grid_search_cross_val(model, X, Y, param_grid, cv=5, scoring='f1', refit=True):
+    grid = GridSearchCV(model, param_grid=param_grid, cv=cv, scoring=scoring, refit=refit)
     grid.fit(X, Y)
     print("Best score: {}".format(np.abs(grid.best_score_)))
     print("Best params: {}".format(grid.best_params_))
+
+    return grid
